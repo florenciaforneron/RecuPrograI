@@ -8,12 +8,13 @@
 1763955503 source:c:\users\admin\documents\proyectos utn\prograirecu\funciones.cpp
 	"funciones.h"
 
-1763965463 source:e:\tup\recuprograi\funciones.cpp
+1764017514 source:e:\tup\recuprograi\funciones.cpp
 	"funciones.h"
 
-1763965844 e:\tup\recuprograi\funciones.h
+1764018365 e:\tup\recuprograi\funciones.h
+	<iomanip>
 	<iostream>
 
-1763965857 source:e:\tup\recuprograi\main.cpp
+1764013969 source:e:\tup\recuprograi\main.cpp
 	"funciones.h"
 

@@ -12,10 +12,9 @@ int main()
     const int TAMANIO_VEC_FORMASPAGO = 5;
     LoteFormasPago formasPago[TAMANIO_VEC_FORMASPAGO];
 
-    bool seguirProceso = true;
-    while(seguirProceso)
+    int opcionElegida;
+    do
     {
-        int opcionElegida;
         cout << "Menu - Elija una opcion" << endl;
         cout << "------------------------------------" << endl;
 
@@ -24,7 +23,7 @@ int main()
         cout << "3. Cargar lote de formas de pago" << endl;
         cout << "4. Cargar lote de ventas" << endl;
         cout << "5. Mostrar reportes" << endl;
-        cout << "6. Salir"<< endl;
+        cout << "0. Salir"<< endl;
         cin >> opcionElegida;
         switch(opcionElegida)
         {
@@ -46,11 +45,10 @@ int main()
             break;
         case 5:
             system("cls");
-            mostrarMenuReportes();
+            mostrarMenuReportes(productos);
             break;
-        case 6:
+        case 0:
             cout << "Proceso finalizado exitosamente" << endl;
-            seguirProceso = false;
             break;
         default:
             system("cls");
@@ -58,5 +56,6 @@ int main()
             break;
         }
     }
+    while(opcionElegida != 0);
     return 0;
 }

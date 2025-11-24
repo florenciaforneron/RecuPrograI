@@ -1,6 +1,7 @@
 #ifndef FUNCIONES_H_INCLUDED
 #define FUNCIONES_H_INCLUDED
 
+#include <iomanip>
 #include <iostream>
 
 using namespace std;
@@ -19,6 +20,10 @@ struct LoteProductos
     float precioCompra;
     int stockDispo;
     LoteMarcas marca;
+
+    // informe1
+    float totalRecaudado;
+    int cantidadVendida;
 };
 
 struct LoteFormasPago
@@ -42,5 +47,7 @@ void cargarLoteMarcas(LoteMarcas marcas[]);
 void cargarLoteProductos(LoteProductos productos[], LoteMarcas marcas[]);
 void cargarLoteFP(LoteFormasPago formasPago[]);
 void cargarLoteVentas(LoteProductos productos[], LoteFormasPago formasPago[]);
-void mostrarMenuReportes();
+void mostrarMenuReportes(LoteProductos productos[]);
+
+
 #endif // FUNCIONES_H_INCLUDED
