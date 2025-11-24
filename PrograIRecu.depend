@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1763931560 source:c:\users\admin\documents\proyectos utn\prograirecu\main.cpp
+	"funciones.h"
+
+1763933432 c:\users\admin\documents\proyectos utn\prograirecu\funciones.h
+	<iostream>
+
+1763955503 source:c:\users\admin\documents\proyectos utn\prograirecu\funciones.cpp
+	"funciones.h"
+
