@@ -5,11 +5,20 @@ int main()
 
     const int TAM_VEC_MARCAS = 10;
     LoteMarcas marcas[TAM_VEC_MARCAS];
+
+    const int TAMANIO_VEC_PRODUCTOS = 20;
+    LoteProductos productos[TAMANIO_VEC_PRODUCTOS];
+
+    const int TAMANIO_VEC_FORMASPAGO = 5;
+    LoteFormasPago formasPago[TAMANIO_VEC_FORMASPAGO];
+
     bool seguirProceso = true;
-    while(seguirProceso) {
+    while(seguirProceso)
+    {
         int opcionElegida;
         cout << "Menu - Elija una opcion" << endl;
         cout << "------------------------------------" << endl;
+
         cout << "1. Cargar lote de marcas" << endl;
         cout << "2. Cargar lote de productos" << endl;
         cout << "3. Cargar lote de formas de pago" << endl;
@@ -17,35 +26,36 @@ int main()
         cout << "5. Mostrar reportes" << endl;
         cout << "6. Salir"<< endl;
         cin >> opcionElegida;
-        switch(opcionElegida){
-            case 1:
-                system("cls");
-                cargarLoteMarcas(marcas);
-                break;
-            case 2:
-                system("cls");
-                cout << "Proximamente..." << endl;
-                break;
-            case 3:
-                system("cls");
-                cout << "Proximamente..." << endl;
-                break;
-            case 4:
-                system("cls");
-               cout << "Proximamente..." << endl;
-                break;
-            case 5:
-                system("cls");
-                cout << "Proximamente..." << endl;
-                break;
-            case 6:
-                cout << "Proceso finalizado exitosamente" << endl;
-                seguirProceso = false;
-                break;
-            default:
-                system("cls");
-                cout << "Opcion incorrecta" << endl;
-                break;
+        switch(opcionElegida)
+        {
+        case 1:
+            system("cls");
+            cargarLoteMarcas(marcas);
+            break;
+        case 2:
+            system("cls");
+            cargarLoteProductos(productos, marcas);
+            break;
+        case 3:
+            system("cls");
+            cargarLoteFP(formasPago);
+            break;
+        case 4:
+            system("cls");
+            cargarLoteVentas(productos, formasPago);
+            break;
+        case 5:
+            system("cls");
+            mostrarMenuReportes();
+            break;
+        case 6:
+            cout << "Proceso finalizado exitosamente" << endl;
+            seguirProceso = false;
+            break;
+        default:
+            system("cls");
+            cout << "Opcion incorrecta" << endl;
+            break;
         }
     }
     return 0;
