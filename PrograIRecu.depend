@@ -21,10 +21,12 @@
 1764178081 source:c:\users\u632485\documents\utn\recuprograi\funciones.cpp
 	"funciones.h"
 
-1764179945 c:\users\u632485\documents\utn\recuprograi\funciones.h
+1764185949 c:\users\u632485\documents\utn\recuprograi\funciones.h
 	<iomanip>
 	<iostream>
+	<cstdlib>
+	<ctime>
 
-1764179959 source:c:\users\u632485\documents\utn\recuprograi\main.cpp
+1764186234 source:c:\users\u632485\documents\utn\recuprograi\main.cpp
 	"funciones.h"
 

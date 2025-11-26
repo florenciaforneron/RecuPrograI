@@ -2,6 +2,7 @@
 
 int main()
 {
+    srand(time(NULL)); // Inicialización de la semilla
 
     int TAM_VEC_MARCAS = 10;
     LoteMarcas marcas[TAM_VEC_MARCAS];

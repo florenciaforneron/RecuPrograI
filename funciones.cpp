@@ -94,10 +94,15 @@ void vaciarReportes(LoteProductos productos[], LoteFormasPago formasPago[], Lote
         marcas[i].cantTC = 0;
         marcas[i].cantCT = 0;
     }
-    for(int i = 0; i < 50; i++){
+    for(int i = 0; i < 50; i++)
+    {
         clientes[i].codCliente = i+1;
         clientes[i].cantidadCompras = 0;
     }
+}
+int generarNumeroRandom(int desde, int hasta)
+{
+    return rand() % hasta + desde;
 }
 
 // Carga de lotes
@@ -588,6 +593,41 @@ void mostrarReporte5(Cliente clientes[])
         cout << setw(4) << left << i + 1 << "|";
         cout << " " << setw(18) << left << clientes[i].codCliente << "|";
         cout << " " << setw(20) << left << clientes[i].cantidadCompras << "|";
+        cout << endl;
+    }
+
+    cout << "=================================================" << endl;
+    cout << "|| GANADORES DEL SORTEO DE CUPONES DE DESCUENTO||" << endl;
+    cout << "=================================================" << endl;
+
+    cout << "CODIGO DE CLIENTE | CANTIDAD DE COMPRAS | CUPON       |" << endl;
+    cout << "------------------------------------------------------|" << endl;
+
+
+    // numeros random
+    int indicesRandom[3]= {};
+    for(int i = 0; i < 3; i++)
+    {
+        int indiceRandom = generarNumeroRandom(1, 10);
+        // chequeo si el indice generado ya existe en el vector
+        bool yaExiste = false;
+        for(int j = 0; j < 3; j++)
+        {
+            if(indicesRandom[j] == indiceRandom)
+            {
+                yaExiste = true;
+                break;
+            }
+        }
+        if(yaExiste)
+        {
+            i--;
+            continue;
+        }
+        indicesRandom[i] = indiceRandom;
+        cout << setw(18) << left << clientes[indiceRandom-1].codCliente << "|";
+        cout << " " << setw(20) << left << clientes[indiceRandom-1].cantidadCompras << "|";
+        cout << " COMPRA20OFF |";
         cout << endl;
     }
 }
