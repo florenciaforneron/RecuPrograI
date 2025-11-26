@@ -67,9 +67,9 @@ bool existeProducto(LoteProductos productos[], int tam, int valor, int &indice)
 
 float calcularPorcentaje(float num, int porcentaje)
 {
-    cout << "Calculando porcentaje (" << num <<","<<porcentaje<<")"<< endl;
+    // cout << "Calculando porcentaje (" << num <<","<<porcentaje<<")"<< endl;
     float total = num * ((float)porcentaje/100+1);
-    cout << "Total porcentaje: " << total << endl;
+    // cout << "Total porcentaje: " << total << endl;
     return total;
 }
 
@@ -409,10 +409,10 @@ void cargarLoteVentas(LoteProductos productos[], LoteFormasPago formasPago[], Lo
         }
         // calculo totales
         float subtotal = ventaActual.producto.precioVenta * ventaActual.cantidadVendida;
-        cout << "SUBTOTAL: " << subtotal << endl;
-        cout << "FP: " << ventaActual.formaPago.nombre << " - " << ventaActual.formaPago.porcentaje << endl;
+        // cout << "SUBTOTAL: " << subtotal << endl;
+        // cout << "FP: " << ventaActual.formaPago.nombre << " - " << ventaActual.formaPago.porcentaje << endl;
         float total = calcularPorcentaje(subtotal, ventaActual.formaPago.porcentaje);
-        cout << "TOTAL: " << total << endl;
+        // cout << "TOTAL: " << total << endl;
 
         // reporte 1
         productos[indiceProducto].stockRestante -= ventaActual.cantidadVendida;
