@@ -73,6 +73,33 @@ float calcularPorcentaje(float num, int porcentaje)
     return total;
 }
 
+// reportes
+void vaciarReportes(LoteProductos productos[], LoteFormasPago formasPago[], LoteMarcas marcas[], Cliente clientes[])
+{
+    for(int i = 0; i<20; i++)
+    {
+        productos[i].cantidadVendida = 0;
+        productos[i].totalRecaudado = 0;
+        productos[i].stockRestante = productos[i].stockDispo;
+    }
+    for(int i = 0; i < 5; i++)
+    {
+        formasPago[i].cantidadVendida = 0;
+    }
+    for(int i=0; i < 10; i++)
+    {
+        marcas[i].cantEF = 0;
+        marcas[i].cantMP = 0;
+        marcas[i].cantTR = 0;
+        marcas[i].cantTC = 0;
+        marcas[i].cantCT = 0;
+    }
+    for(int i = 0; i < 50; i++){
+        clientes[i].codCliente = i+1;
+        clientes[i].cantidadCompras = 0;
+    }
+}
+
 // Carga de lotes
 void cargarLoteMarcas(LoteMarcas marcas[])
 {
@@ -114,6 +141,13 @@ void cargarLoteMarcas(LoteMarcas marcas[])
         cout << "------------------------------------"<<endl;
         marcas[i].codMarca = codMarca;
         marcas[i].nombre = nombreMarca;
+
+        // reporte 3
+        marcas[i].cantEF = 0;
+        marcas[i].cantMP = 0;
+        marcas[i].cantTR = 0;
+        marcas[i].cantTC = 0;
+        marcas[i].cantCT = 0;
     }
     system("cls");
     cout << "------------------------------------"<<endl;
@@ -217,6 +251,8 @@ void cargarLoteProductos(LoteProductos productos[], LoteMarcas marcas[])
         productos[i].precioCompra = precioCompra;
         productos[i].stockDispo = stock;
         productos[i].marca = marcas[indiceMarca];
+
+        // reporte 1
         productos[i].cantidadVendida = 0;
         productos[i].totalRecaudado = 0;
     }
@@ -279,6 +315,8 @@ void cargarLoteFP(LoteFormasPago formasPago[])
         formasPago[i].codPago = codFP;
         formasPago[i].nombre = nomFP;
         formasPago[i].porcentaje = porcFP;
+        // reporte 2
+        formasPago[i].cantidadVendida = 0;
         cout << "------------------------------------"<<endl;
     }
     system("cls");
@@ -287,21 +325,21 @@ void cargarLoteFP(LoteFormasPago formasPago[])
     cout << "------------------------------------"<<endl;
 }
 
-void cargarLoteVentas(LoteProductos productos[], LoteFormasPago formasPago[])
+void cargarLoteVentas(LoteProductos productos[], LoteFormasPago formasPago[], LoteMarcas marcas[], Cliente clientes[])
 {
     cout << "Menu carga y procesamiento de Lote de Ventas"<<endl;
     cout << "------------------------------------"<<endl;
-
+    // se vacian reportes anteriores en caso de que existan
+    vaciarReportes(productos, formasPago, marcas, clientes);
     LoteVentas ventaActual;
     cout << "Ingrese Nro de Compra (0 para finalizar): ";
     cin >> ventaActual.nroDeCompra;
     while(ventaActual.nroDeCompra != 0)
     {
         int codProd;
-        int indiceProducto;
+        int indiceProducto, indiceMarca, indiceFP;
 
         string codFP;
-        int indiceFP;
 
         bool entradaValida = false;
         while (!entradaValida)
@@ -376,12 +414,42 @@ void cargarLoteVentas(LoteProductos productos[], LoteFormasPago formasPago[])
         float total = calcularPorcentaje(subtotal, ventaActual.formaPago.porcentaje);
         cout << "TOTAL: " << total << endl;
 
-        // Código informe 1
-        productos[indiceProducto].stockDispo = productos[indiceProducto].stockDispo - ventaActual.cantidadVendida;
-        productos[indiceProducto].cantidadVendida = productos[indiceProducto].cantidadVendida + ventaActual.cantidadVendida;
-        productos[indiceProducto].totalRecaudado = productos[indiceProducto].totalRecaudado + total;
+        // reporte 1
+        productos[indiceProducto].stockRestante -= ventaActual.cantidadVendida;
+        productos[indiceProducto].cantidadVendida += ventaActual.cantidadVendida;
+        productos[indiceProducto].totalRecaudado += + total;
+
+        // reporte 2
+        formasPago[indiceFP].cantidadVendida += ventaActual.cantidadVendida;
         cout << "Ingrese Nro de Compra (0 para finalizar): ";
         cin >> ventaActual.nroDeCompra;
+
+        // reporte3
+        // obtengo el indice de la marca de la venta actual
+        existeMarca(marcas, 10, ventaActual.producto.marca.codMarca, indiceMarca);
+        if(ventaActual.formaPago.codPago == "EF")
+        {
+            marcas[indiceMarca].cantEF += ventaActual.cantidadVendida;
+        }
+        else if(ventaActual.formaPago.codPago == "MP")
+        {
+            marcas[indiceMarca].cantMP += ventaActual.cantidadVendida;
+        }
+        else if(ventaActual.formaPago.codPago == "TR")
+        {
+            marcas[indiceMarca].cantTR += ventaActual.cantidadVendida;
+        }
+        else if(ventaActual.formaPago.codPago == "TC")
+        {
+            marcas[indiceMarca].cantTC += ventaActual.cantidadVendida;
+        }
+        else
+        {
+            marcas[indiceMarca].cantCT += ventaActual.cantidadVendida;
+        };
+
+        // reporte 5
+        clientes[ventaActual.codCliente - 1].cantidadCompras += ventaActual.cantidadVendida;
     }
     system("cls");
     cout << "------------------------------------"<<endl;
@@ -401,8 +469,10 @@ void mostrarReporte1(LoteProductos productos[])
     cout << "------------------------------------------------------------------------------------------------|" << endl;
 
     // ordenando productos por cantidad de ventas  de mayor a menor con método búrbuja
-    for(int j = 0 ; j < 20; j++){
-        for(int i = 0; i < 19; i++){
+    for(int j = 0 ; j < 20; j++)
+    {
+        for(int i = 0; i < 19; i++)
+        {
             if(productos[i].cantidadVendida < productos[i + 1].cantidadVendida)
             {
                 LoteProductos aux = productos[i + 1];
@@ -411,20 +481,118 @@ void mostrarReporte1(LoteProductos productos[])
             }
         }
     }
-
+    // salida
     for(int i = 0; i<20; i++)
     {
         cout << setw(19) << left << productos[i].codProducto << "|";
         cout << " " << setw(20) << left << productos[i].nombre << "|";
         cout << " " << setw(17) << left << productos[i].cantidadVendida << "|";
         cout << " " << setw(16) << left << productos[i].totalRecaudado << "|";
-        cout << " " << setw(16) << left << productos[i].stockDispo << "|";
+        cout << " " << setw(16) << left << productos[i].stockRestante << "|";
         cout << endl;
     }
 }
 
+void mostrarReporte2(LoteFormasPago formasPago[])
+{
+    cout << "=======================================================" << endl;
+    cout << "|| REPORTE 2: PORCENTAJE DE VENTAS POR FORMA DE PAGO ||" << endl;
+    cout << "=======================================================" << endl;
 
-void mostrarMenuReportes(LoteProductos productos[])
+    cout << "FORMA DE PAGO      | PORCENTAJE DE VENTAS |" << endl;
+    cout << "------------------------------------------|" << endl;
+    // calculando totales
+    int totalVendido = 0;
+    for (int i = 0; i < 5; i++)
+    {
+        totalVendido += formasPago[i].cantidadVendida;
+    }
+    // salida
+    for(int i = 0; i < 5; i++)
+    {
+        cout << setw(19) << left << formasPago[i].nombre << "|";
+        cout << " " << setw(21) << left << ((double)formasPago[i].cantidadVendida / (double) totalVendido)*100  << "|";
+        cout << endl;
+    }
+}
+
+void mostrarReporte3(LoteMarcas marcas[])
+{
+    cout << "=================================================" << endl;
+    cout << "|| REPORTE 3: VENTAS POR MARCA Y FORMA DE PAGO ||" << endl;
+    cout << "=================================================" << endl;
+
+    cout << "MARCA           | EF | MP | TR | TC | CT |" << endl;
+    cout << "-----------------------------------------|" << endl;
+
+    // carga de datos
+    for(int i = 0; i < 10; i++)
+    {
+        cout << setw(16) << left << marcas[i].nombre << "|";
+        cout << " " << setw(3) << left << marcas[i].cantEF  << "|";
+        cout << " " << setw(3) << left << marcas[i].cantMP  << "|";
+        cout << " " << setw(3) << left << marcas[i].cantTR  << "|";
+        cout << " " << setw(3) << left << marcas[i].cantTC  << "|";
+        cout << " " << setw(3) << left << marcas[i].cantCT  << "|";
+        cout << endl;
+    }
+
+}
+
+
+void mostrarReporte4(LoteProductos productos[])
+{
+    cout << "=====================================" << endl;
+    cout << "|| REPORTE 4: PRODUCTOS SIN VENTAS ||" << endl;
+    cout << "=====================================" << endl;
+
+    cout << "CODIGO DE PRODUCTO | NOMBRE DEL PRODUCTO |" << endl;
+    cout << "-----------------------------------------|" << endl;
+
+    // salida
+    for(int i = 0; i<20; i++)
+    {
+        if(productos[i].cantidadVendida > 0) continue;
+        cout << setw(19) << left << productos[i].codProducto << "|";
+        cout << " " << setw(20) << left << productos[i].nombre << "|";
+        cout << endl;
+    }
+}
+
+void mostrarReporte5(Cliente clientes[])
+{
+    cout << "====================================================" << endl;
+    cout << "|| REPORTE 5: TOP 10 CLIENTES + SORTEO DE CUPONES ||" << endl;
+    cout << "====================================================" << endl;
+
+    cout << "TOP | CODIGO DE CLIENTE | CANTIDAD DE COMPRAS |" << endl;
+    cout << "----------------------------------------------|" << endl;
+
+    // ordenando clientes por cantidad de compras de mayor a menor con método búrbuja
+    for(int j = 0 ; j < 50; j++)
+    {
+        for(int i = 0; i < 49; i++)
+        {
+            if(clientes[i].cantidadCompras < clientes[i + 1].cantidadCompras)
+            {
+                Cliente aux = clientes[i + 1];
+                clientes[i + 1] =  clientes[i];
+                clientes[i] = aux;
+            }
+        }
+    }
+
+    // salida
+    for(int i = 0; i<10; i++)
+    {
+        cout << setw(4) << left << i + 1 << "|";
+        cout << " " << setw(18) << left << clientes[i].codCliente << "|";
+        cout << " " << setw(20) << left << clientes[i].cantidadCompras << "|";
+        cout << endl;
+    }
+}
+
+void mostrarMenuReportes(LoteProductos productos[], LoteFormasPago formasPago[], LoteMarcas marcas[], Cliente clientes[])
 {
     int opcionElegida;
     do
@@ -446,19 +614,19 @@ void mostrarMenuReportes(LoteProductos productos[])
             break;
         case 2:
             system("cls");
-            cout << "Proximamente..." << endl;
+            mostrarReporte2(formasPago);
             break;
         case 3:
             system("cls");
-            cout << "Proximamente..." << endl;
+            mostrarReporte3(marcas);
             break;
         case 4:
             system("cls");
-            cout << "Proximamente..." << endl;
+            mostrarReporte4(productos);
             break;
         case 5:
             system("cls");
-            cout << "Proximamente..." << endl;
+            mostrarReporte5(clientes);
             break;
         case 6:
             system("cls");

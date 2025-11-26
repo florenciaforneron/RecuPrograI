@@ -10,6 +10,13 @@ struct LoteMarcas
 {
     int codMarca;
     string nombre;
+
+    // reporte 3
+    int cantEF;
+    int cantMP;
+    int cantTR;
+    int cantTC;
+    int cantCT;
 };
 
 struct LoteProductos
@@ -22,8 +29,9 @@ struct LoteProductos
     LoteMarcas marca;
 
     // informe1
-    float totalRecaudado;
     int cantidadVendida;
+    float totalRecaudado;
+    int stockRestante;
 };
 
 struct LoteFormasPago
@@ -31,6 +39,9 @@ struct LoteFormasPago
     string codPago;
     string nombre;
     int porcentaje;
+
+    // informe2
+    int cantidadVendida;
 };
 
 struct LoteVentas
@@ -43,11 +54,18 @@ struct LoteVentas
     int diaVenta;
 };
 
+//informe5
+struct Cliente
+{
+    int codCliente;
+    int cantidadCompras;
+};
+
 void cargarLoteMarcas(LoteMarcas marcas[]);
 void cargarLoteProductos(LoteProductos productos[], LoteMarcas marcas[]);
 void cargarLoteFP(LoteFormasPago formasPago[]);
-void cargarLoteVentas(LoteProductos productos[], LoteFormasPago formasPago[]);
-void mostrarMenuReportes(LoteProductos productos[]);
+void cargarLoteVentas(LoteProductos productos[], LoteFormasPago formasPago[], LoteMarcas marcas[], Cliente clientes[]);
+void mostrarMenuReportes(LoteProductos productos[], LoteFormasPago formasPago[], LoteMarcas marcas[], Cliente clientes[]);
 
 
 #endif // FUNCIONES_H_INCLUDED

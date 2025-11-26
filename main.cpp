@@ -3,15 +3,18 @@
 int main()
 {
 
-    const int TAM_VEC_MARCAS = 10;
+    int TAM_VEC_MARCAS = 10;
     LoteMarcas marcas[TAM_VEC_MARCAS];
 
-    const int TAMANIO_VEC_PRODUCTOS = 20;
+    int TAMANIO_VEC_PRODUCTOS = 20;
     LoteProductos productos[TAMANIO_VEC_PRODUCTOS];
 
-    const int TAMANIO_VEC_FORMASPAGO = 5;
+    int TAMANIO_VEC_FORMASPAGO = 5;
     LoteFormasPago formasPago[TAMANIO_VEC_FORMASPAGO];
 
+    // reporte 3
+    int TAM_VEC_CLIENTES = 50;
+    Cliente clientes[TAM_VEC_CLIENTES] = {0};
     int opcionElegida;
     do
     {
@@ -41,11 +44,11 @@ int main()
             break;
         case 4:
             system("cls");
-            cargarLoteVentas(productos, formasPago);
+            cargarLoteVentas(productos, formasPago, marcas, clientes);
             break;
         case 5:
             system("cls");
-            mostrarMenuReportes(productos);
+            mostrarMenuReportes(productos, formasPago, marcas, clientes);
             break;
         case 0:
             cout << "Proceso finalizado exitosamente" << endl;
